@@ -17,7 +17,7 @@ provider "aws" {
 resource "aws_vpc" "my_vpc" {
   cidr_block = "10.0.0.0/21"
   tags = {
-    Name = "cloudtech2-1"
+    Name  = "cloudtech2-1"
     Issue = "2-1"
   }
 }
@@ -34,15 +34,15 @@ resource "aws_subnet" "public_subnet_a" {
 }
 
 resource "aws_subnet" "private_subnet1_a" {
-  vpc_id                  = aws_vpc.my_vpc.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "ap-northeast-1a"
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "ap-northeast-1a"
 }
 
 resource "aws_subnet" "private_subnet2_a" {
-  vpc_id                  = aws_vpc.my_vpc.id
-  cidr_block              = "10.0.2.0/24"
-  availability_zone       = "ap-northeast-1a"
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "ap-northeast-1a"
 }
 
 resource "aws_subnet" "public_subnet_c" {
@@ -56,13 +56,13 @@ resource "aws_subnet" "public_subnet_c" {
 }
 
 resource "aws_subnet" "private_subnet1_c" {
-  vpc_id                  = aws_vpc.my_vpc.id
-  cidr_block              = "10.0.4.0/24"
-  availability_zone       = "ap-northeast-1c"
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = "10.0.4.0/24"
+  availability_zone = "ap-northeast-1c"
 }
 
 resource "aws_subnet" "private_subnet2_c" {
-  vpc_id                  = aws_vpc.my_vpc.id
-  cidr_block              = "10.0.5.0/24"
-  availability_zone       = "ap-northeast-1c"
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = "10.0.5.0/24"
+  availability_zone = "ap-northeast-1c"
 }
