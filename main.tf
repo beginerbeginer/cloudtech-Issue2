@@ -397,7 +397,7 @@ resource "aws_vpc_peering_connection" "pcx" {
   auto_accept   = true
 
   tags = {
-    Name = "my_vpc_to_vpc_with_pearing"
+    Name = "myvpc_to_vpc_with_pearing"
   }
 }
 
