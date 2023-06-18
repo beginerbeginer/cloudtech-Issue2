@@ -177,6 +177,10 @@ resource "aws_network_acl" "public_subnet_acl" {
   }
 
   subnet_ids = [aws_subnet.public_subnet_a.id]
+
+  tags = {
+    Name = "acl-public"
+  }
 }
 
 # Private Subnet 1
@@ -220,6 +224,10 @@ resource "aws_network_acl" "private_subnet1_acl" {
   }
 
   subnet_ids = [aws_subnet.private_subnet1_a.id]
+
+  tags = {
+    Name = "acl-private1"
+  }
 }
 
 # Private Subnet 2
@@ -245,4 +253,8 @@ resource "aws_network_acl" "private_subnet2_acl" {
   }
 
   subnet_ids = [aws_subnet.private_subnet2_a.id]
+
+  tags = {
+    Name = "acl-private2"
+  }
 }
