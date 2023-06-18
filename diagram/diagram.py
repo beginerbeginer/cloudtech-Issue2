@@ -9,12 +9,12 @@ graph_attr = {
 }
 
 with Diagram("Architecture", show=True, graph_attr=graph_attr, outformat="png"):
-    with Cluster("system"):
+    with Cluster("外部ネットワーク"):
         internet_01 = Internet("Internet")
         users_01 = Users("ユーザー")
         with Cluster("AWS Cloud"):
             with Cluster("Region - ap-northeast-1"):
-                with Cluster("VPC"):
+                with Cluster("VPC\n10.0.0.0/21"):
                     igw_01 = InternetGateway("InternetGateway")
                     with Cluster("Availability Zone - ap-northeast-1a"):
                         with Cluster("Public Subnets"):
@@ -31,10 +31,10 @@ with Diagram("Architecture", show=True, graph_attr=graph_attr, outformat="png"):
                             private_subnet1_c = PrivateSubnet("Private Subnet 1 C\n10.0.4.0/24")
                             private_subnet2_c = PrivateSubnet("Private Subnet 2 C\n10.0.5.0/24")
 
-                with Cluster("VPC with Peering"):
-                    vpc_peering = VPCCustomerGateway("VPC with Peering\n172.16.0.0/21")
+                with Cluster("VPC2\n172.16.0.0/21"):
+                    vpc_peering = VPCCustomerGateway("VPC Peering")
                     with Cluster("Availability Zone - ap-northeast-1a"):
-                        peered_subnet_a = PrivateSubnet("Peered Subnet A\n172.16.0.0/24")
+                        peered_subnet_a = PrivateSubnet("Peered Private Subnet A\n172.16.0.0/24")
 
                     # 構成図の線を引く
                     users_01 - internet_01 - igw_01 - public_subnet_a
