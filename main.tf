@@ -149,3 +149,100 @@ resource "aws_route_table_association" "private2_c" {
   subnet_id      = aws_subnet.private_subnet2_c.id
   route_table_id = aws_route_table.private_route_table.id
 }
+
+###################
+# network ACLs
+###################
+
+# Public Subnet
+resource "aws_network_acl" "public_subnet_acl" {
+  vpc_id = aws_vpc.my_vpc.id
+
+  egress {
+    protocol   = "-1"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+
+  ingress {
+    protocol   = "-1"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+
+  subnet_ids = [aws_subnet.public_subnet_a.id]
+}
+
+# Private Subnet 1
+resource "aws_network_acl" "private_subnet1_acl" {
+  vpc_id = aws_vpc.my_vpc.id
+
+  egress {
+    protocol   = "-1"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = aws_subnet.public_subnet_a.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+
+  egress {
+    protocol   = "-1"
+    rule_no    = 200
+    action     = "allow"
+    cidr_block = aws_subnet.private_subnet2_a.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+
+  ingress {
+    protocol   = "-1"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = aws_subnet.public_subnet_a.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+
+  ingress {
+    protocol   = "-1"
+    rule_no    = 200
+    action     = "allow"
+    cidr_block = aws_subnet.private_subnet2_a.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+
+  subnet_ids = [aws_subnet.private_subnet1_a.id]
+}
+
+# Private Subnet 2
+resource "aws_network_acl" "private_subnet2_acl" {
+  vpc_id = aws_vpc.my_vpc.id
+
+  egress {
+    protocol   = "-1"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = aws_subnet.private_subnet1_a.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+
+  ingress {
+    protocol   = "-1"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = aws_subnet.private_subnet1_a.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+
+  subnet_ids = [aws_subnet.private_subnet2_a.id]
+}
