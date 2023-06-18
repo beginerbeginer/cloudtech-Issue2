@@ -1,5 +1,5 @@
 from diagrams import Diagram, Cluster, Edge
-from diagrams.aws.network import VPC, PrivateSubnet, PublicSubnet, InternetGateway
+from diagrams.aws.network import VPC, PrivateSubnet, PublicSubnet, InternetGateway, VPCCustomerGateway
 from diagrams.onprem.network import Internet
 from diagrams.onprem.client import Users
 
@@ -31,6 +31,11 @@ with Diagram("Architecture", show=True, graph_attr=graph_attr, outformat="png"):
                             private_subnet1_c = PrivateSubnet("Private Subnet 1 C\n10.0.4.0/24")
                             private_subnet2_c = PrivateSubnet("Private Subnet 2 C\n10.0.5.0/24")
 
+                with Cluster("VPC with Peering"):
+                    vpc_peering = VPCCustomerGateway("VPC with Peering\n172.16.0.0/21")
+                    with Cluster("Availability Zone - ap-northeast-1a"):
+                        peered_subnet_a = PrivateSubnet("Peered Subnet A\n172.16.0.0/24")
+
                     # 構成図の線を引く
                     users_01 - internet_01 - igw_01 - public_subnet_a
                     users_01 - internet_01 - igw_01 - public_subnet_c
@@ -38,4 +43,5 @@ with Diagram("Architecture", show=True, graph_attr=graph_attr, outformat="png"):
                     private_subnet1_a - Edge(style="dotted") - private_subnet2_a
                     public_subnet_c - Edge(color="brown", style="dashed") - private_subnet1_c
                     private_subnet1_c - Edge(style="dotted") - private_subnet2_c
-
+                    private_subnet1_a - Edge(color="purple", style="dotted") - vpc_peering - peered_subnet_a
+                    private_subnet1_c - Edge(color="purple", style="dotted") - vpc_peering
