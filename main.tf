@@ -60,7 +60,7 @@ resource "aws_subnet" "private_subnet2_a" {
   availability_zone = "ap-northeast-1a"
 
   tags = {
-    Name = "pri-sn2-c"
+    Name = "pri-sn2-a"
   }
 }
 
