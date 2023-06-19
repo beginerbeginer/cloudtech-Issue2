@@ -42,4 +42,4 @@ with Diagram("VPC Architecture", show=True, graph_attr=graph_attr, outformat="pn
     # Connect nodes outside of AWS Cloud
     users_01 - public_subnet_prod_1
     users_01 - public_subnet_prod_2
-    datacenter - direct_connect - transit_gateway
+    datacenter - direct_connect - vpc_data_integration  # change this line
