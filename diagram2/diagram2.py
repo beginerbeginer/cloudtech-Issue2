@@ -8,7 +8,7 @@ graph_attr = {
     "fontsize": "20"
 }
 
-with Diagram("VPC Architecture", show=True, graph_attr=graph_attr, outformat="png"):
+with Diagram("VPC Architecture2", show=True, graph_attr=graph_attr, outformat="png"):
     users_01 = Users("ユーザー")
     datacenter = Server("データセンター")
     direct_connect = DirectConnect("Direct Connect")
