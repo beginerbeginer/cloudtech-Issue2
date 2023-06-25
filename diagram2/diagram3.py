@@ -1,5 +1,5 @@
 from diagrams import Diagram, Cluster, Edge
-from diagrams.aws.network import VPC, PrivateSubnet, PublicSubnet, DirectConnect, TransitGateway
+from diagrams.aws.network import VPC, PrivateSubnet, PublicSubnet, DirectConnect, VPCPeering, InternetGateway
 from diagrams.onprem.network import Internet
 from diagrams.onprem.client import Users
 from diagrams.onprem.compute import Server
@@ -8,13 +8,13 @@ graph_attr = {
     "fontsize": "20"
 }
 
-with Diagram("VPC Architecture2", show=True, graph_attr=graph_attr, outformat="png"):
+with Diagram("VPC Architecture Issue3", show=True, graph_attr=graph_attr, outformat="png"):
     users_01 = Users("ユーザー")
     datacenter = Server("データセンター")
     direct_connect = DirectConnect("Direct Connect")
 
     with Cluster("AWS Cloud"):
-        transit_gateway = TransitGateway("Transit Gateway")
+        internet_gateway = InternetGateway("Internet Gateway")
 
         with Cluster("VPC for Production 1\n10.0.0.0/16"):
             vpc_prod_1 = VPC("VPC - Production 1")
@@ -35,11 +35,15 @@ with Diagram("VPC Architecture2", show=True, graph_attr=graph_attr, outformat="p
                 private_subnet_data_integration = PrivateSubnet("Private Subnet\n10.2.2.0/24")
 
         # Connect nodes within AWS Cloud
-        vpc_prod_1 - Edge(color="brown", style="dashed") - transit_gateway
-        vpc_prod_2 - Edge(color="brown", style="dashed") - transit_gateway
-        vpc_data_integration - Edge(color="brown", style="dashed") - transit_gateway
+        vpc_peering_1 = VPCPeering("VPC Peering 1")
+        vpc_peering_2 = VPCPeering("VPC Peering 2")
+        vpc_peering_3 = VPCPeering("VPC Peering 3")
+
+        vpc_prod_1 - Edge(color="brown", style="dashed") - vpc_peering_1 - Edge(color="brown", style="dashed") -  vpc_prod_2
+        vpc_prod_1 - Edge(color="brown", style="dashed") - vpc_peering_2 - Edge(color="brown", style="dashed") -  vpc_data_integration
+        vpc_prod_2 - Edge(color="brown", style="dashed") - vpc_peering_3 - Edge(color="brown", style="dashed") -  vpc_data_integration
 
     # Connect nodes outside of AWS Cloud
-    users_01 - public_subnet_prod_1
-    users_01 - public_subnet_prod_2
-    datacenter - direct_connect - vpc_data_integration  # change this line
+    users_01 - internet_gateway - public_subnet_prod_1
+    users_01 - internet_gateway - public_subnet_prod_2
+    datacenter - direct_connect - vpc_data_integration
